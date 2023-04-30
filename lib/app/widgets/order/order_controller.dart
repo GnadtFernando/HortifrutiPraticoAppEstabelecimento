@@ -5,17 +5,27 @@ import 'package:get/get.dart';
 class OrderController extends GetxController with StateMixin<OrderModel> {
   final OrderRepository _repository;
   OrderController(this._repository);
+  final orderId = RxnString();
 
   @override
   void onInit() {
-    String id = Get.parameters['id']!;
+    String? id = Get.parameters['id'];
+    ever(orderId, (String? id) => loadOrder());
 
-    _repository.getOrder(id).then((data) {
+    if (id != null) {
+      orderId.value = id;
+    }
+
+    super.onInit();
+  }
+
+  Future<void> loadOrder() async {
+    change(state, status: RxStatus.loading());
+
+    _repository.getOrder(orderId.value!).then((data) {
       change(data, status: RxStatus.success());
     }, onError: (error) {
       change(null, status: RxStatus.error(error.toString()));
     });
-
-    super.onInit();
   }
 }

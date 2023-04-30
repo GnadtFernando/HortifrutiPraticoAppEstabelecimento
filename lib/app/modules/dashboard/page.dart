@@ -81,10 +81,10 @@ class DashboardPage extends GetResponsiveView<DashboardController> {
   IndexedStack _body() {
     return IndexedStack(
       index: controller.currentPageIndex.value,
-      children: const [
+      children: [
         OrderListPage(),
-        HomePage(),
-        UserProfilePage(),
+        const HomePage(),
+        const UserProfilePage(),
       ],
     );
   }
