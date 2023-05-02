@@ -13,33 +13,35 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return controller.obx(
-      (state) => ListView(
-        children: [
-          for (var product in state!)
-            ListTile(
-              title: Text(product.name),
-              subtitle: Text(
-                  NumberFormat.simpleCurrency().format(product.price) +
-                      (product.isKg ? '/kg' : '')),
-              leading: product.image != null
-                  ? SizedBox(
-                      width: 56.0,
-                      height: 56.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: product.image!,
-                        ),
-                      ),
-                    )
-                  : null,
-              onTap: () => Get.toNamed(Routes.product, arguments: {
-                'product': product,
-              }),
-            )
-        ],
-      ),
-    );
+        (state) => ListView(
+              children: [
+                for (var product in state!)
+                  ListTile(
+                    title: Text(product.name),
+                    subtitle: Text(
+                        NumberFormat.simpleCurrency().format(product.price) +
+                            (product.isKg ? '/kg' : '')),
+                    leading: product.image != null
+                        ? SizedBox(
+                            width: 56.0,
+                            height: 56.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: FadeInImage.memoryNetwork(
+                                placeholder: kTransparentImage,
+                                image: product.image!,
+                              ),
+                            ),
+                          )
+                        : null,
+                    onTap: () => Get.toNamed(Routes.product, arguments: {
+                      'product': product,
+                    }),
+                  )
+              ],
+            ),
+        onEmpty: const Center(
+          child: Text('Nenhum produto cadastrado na categoria.'),
+        ));
   }
 }

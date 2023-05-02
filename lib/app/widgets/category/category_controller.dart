@@ -23,7 +23,11 @@ class CategoryController extends GetxController
     change(state, status: RxStatus.loading());
 
     _repository.getProducts(categoryId.value!).then((data) {
-      change(data, status: RxStatus.success());
+      if (data.isEmpty) {
+        change([], status: RxStatus.empty());
+      } else {
+        change(data, status: RxStatus.success());
+      }
     }, onError: (error) {
       change(null, status: RxStatus.error(error.toString()));
     });
