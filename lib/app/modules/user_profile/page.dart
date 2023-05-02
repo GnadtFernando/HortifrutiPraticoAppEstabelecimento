@@ -29,15 +29,6 @@ class UserProfilePage extends GetView<UserProfileController> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                        onPressed: () => Get.toNamed(Routes.userAddressList),
-                        child: const Text('Meus endereços')),
-                  ),
-                ],
-              ),
               const SizedBox(
                 height: 8.0,
               ),
