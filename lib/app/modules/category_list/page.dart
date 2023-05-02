@@ -12,7 +12,15 @@ class CategoryListPage extends GetResponsiveView<CategoryListController> {
   @override
   Widget desktop() {
     return Scaffold(
-      appBar: AppBar(title: const Text('Meus Produtos')),
+      appBar: AppBar(
+        title: const Text('Meus Produtos'),
+        actions: [
+          TextButton(
+            onPressed: () => Get.toNamed(Routes.product),
+            child: const Text('Novo Produto'),
+          ),
+        ],
+      ),
       body: Row(
         children: [
           Flexible(
