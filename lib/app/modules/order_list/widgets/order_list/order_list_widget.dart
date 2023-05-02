@@ -21,21 +21,24 @@ class OrderListWidget extends StatelessWidget {
       (state) => ListView(
         children: [
           for (var order in state!)
-            ListTile(
-              title: Text('#${order.hashId}'),
-              subtitle: Text(
-                DateFormat("dd/MM/y HH:mm").format(order.createdAt),
-              ),
-              trailing: Chip(
-                label: SizedBox(
-                  width: 70,
-                  child: Text(
-                    order.statusList.last.name,
-                    textAlign: TextAlign.center,
+            Obx(
+              () => ListTile(
+                title: Text('#${order.hashId}'),
+                subtitle: Text(
+                  DateFormat("dd/MM/y HH:mm").format(order.createdAt),
+                ),
+                trailing: Chip(
+                  label: SizedBox(
+                    width: 70,
+                    child: Text(
+                      order.statusList.last.name,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
+                onTap: () => onItemSelected(order),
+                selected: controller.orderSelected.value == order.hashId,
               ),
-              onTap: () => onItemSelected(order),
             )
         ],
       ),
