@@ -84,7 +84,7 @@ class DashboardPage extends GetResponsiveView<DashboardController> {
       children: [
         OrderListPage(),
         CategoryListPage(),
-        const UserProfilePage(),
+        UserProfilePage(),
       ],
     );
   }
