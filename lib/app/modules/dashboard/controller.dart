@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
-  var currentPageIndex = 2.obs;
+  var currentPageIndex = 0.obs;
 
   @override
   void onInit() {

@@ -14,14 +14,102 @@ class UserProfilePage extends GetResponsiveView<UserProfileController> {
         children: [
           if (screen.isPhone) ...[
             _buildForm(),
+            const SizedBox(height: 16),
+            _buildPickAndShowImage(),
           ] else ...[
-            Container(
-              constraints: const BoxConstraints(maxWidth: 800),
-              child: _buildForm(),
-            ),
+            Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildForm(),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Flexible(child: _buildPickAndShowImage())
+                    ],
+                  ),
+                ),
+              ),
+            )
           ]
         ],
       ),
+    );
+  }
+
+  Widget _buildProductImage(Widget image) {
+    return Align(
+      child: Container(
+        constraints: const BoxConstraints(maxHeight: 250),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: image,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPickAndShowImage() {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Logo',
+            style: Get.textTheme.bodyMedium,
+          ),
+        ),
+        const SizedBox(height: 16),
+        // Obx(
+        //   () {
+        //     // if (controller.img.value != null) {
+        //     //   return _buildProductImage(
+        //     //     Image.memory(controller.img.value!.bytes!),
+        //     //   );
+        //     // }
+
+        //     // if (controller.currentImg.value?.isNotEmpty ?? false) {
+        //     //   return Column(
+        //     //     children: [
+        //     //       Padding(
+        //     //         padding: const EdgeInsets.only(top: 8, bottom: 16),
+        //     //         child: OutlinedButton(
+        //     //           onPressed: controller.onDeleteImage,
+        //     //           style: OutlinedButton.styleFrom(
+        //     //             foregroundColor: Colors.red,
+        //     //           ),
+        //     //           child: const Text('Excluir imagem'),
+        //     //         ),
+        //     //       ),
+        //     //       _buildProductImage(
+        //     //         FadeInImage.memoryNetwork(
+        //     //           placeholder: kTransparentImage,
+        //     //           image: controller.currentImg.value!,
+        //     //         ),
+        //     //       ),
+        //     //     ],
+        //     //   );
+        //     // }
+
+        //     return const SizedBox();
+        //   },
+        // ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 16),
+          child: OutlinedButton(
+            //  controller.pickImage
+            onPressed: () {},
+            child: const Text('Selecionar uma imagem'),
+          ),
+        )
+      ],
     );
   }
 
