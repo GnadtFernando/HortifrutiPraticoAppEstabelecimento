@@ -5,9 +5,6 @@ import 'package:app_painel_hortifruti_pratico/app/widgets/category/category_cont
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'widgets/delete_category/delete_category_widget.dart';
-import 'widgets/edit_category/edit_category_widget.dart';
-
 class CategoryListController extends GetxController
     with StateMixin<List<CategoryModel>> {
   final CategoryListRepository _repository;
