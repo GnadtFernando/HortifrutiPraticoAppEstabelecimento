@@ -1,5 +1,7 @@
 import 'package:app_painel_hortifruti_pratico/app/data/models/category.dart';
 import 'package:app_painel_hortifruti_pratico/app/modules/category_list/controller.dart';
+import 'package:app_painel_hortifruti_pratico/app/modules/category_list/widgets/delete_category/delete_category_widget.dart';
+import 'package:app_painel_hortifruti_pratico/app/modules/category_list/widgets/edit_category/edit_category_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,6 +27,32 @@ class CategoryListWidget extends StatelessWidget {
                 title: Text('#${category.name}'),
                 onTap: () => onItemSelected(category),
                 selected: controller.categorySelected.value == category.id,
+                trailing: PopupMenuButton(
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      value: 'edit',
+                      child: Text('Editar'),
+                    ),
+                    const PopupMenuItem(
+                      value: 'delete',
+                      child: Text('Excluir'),
+                    ),
+                  ],
+                  onSelected: (value) {
+                    switch (value) {
+                      case 'delete':
+                        DeleteCategoryWidget(
+                            controller.categorySelected.value!);
+                        break;
+                      case 'edit':
+                        EditCategoryWidget(
+                          controller.categorySelected.value!,
+                        );
+                        break;
+                      default:
+                    }
+                  },
+                ),
               ),
             )
         ],
