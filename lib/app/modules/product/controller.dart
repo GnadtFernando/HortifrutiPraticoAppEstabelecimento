@@ -30,8 +30,8 @@ class ProductController extends GetxController {
   final categoryList = RxList<CategoryModel>.empty();
   final categoryId = RxnInt();
   @override
-  void onInit() async {
-    await loadCategories();
+  void onInit() {
+    loadCategories();
     if (Get.arguments != null) {
       product.value = Get.arguments['product'];
       title = product.value!.name;
@@ -43,6 +43,10 @@ class ProductController extends GetxController {
       unitOfMeasure.value = product.value!.unitOfMeasure;
       categoryId.value = product.value!.categoryId;
       currentImg.value = product.value!.image;
+    } else if (Get.parameters['category_id'] != 'null') {
+      String categoryIdSelected = Get.parameters['category_id']!;
+      categoryId.value = int.parse(categoryIdSelected);
+      title = 'Novo Produto';
     } else {
       title = 'Novo Produto';
     }

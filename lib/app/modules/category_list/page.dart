@@ -16,7 +16,12 @@ class CategoryListPage extends GetResponsiveView<CategoryListController> {
         title: const Text('Meus Produtos'),
         actions: [
           TextButton(
-            onPressed: () => Get.toNamed(Routes.product),
+            onPressed: () => Get.toNamed(
+              Routes.product,
+              parameters: {
+                'category_id': controller.categorySelected.value.toString()
+              },
+            ),
             child: const Text('Novo Produto'),
           ),
         ],
