@@ -59,8 +59,14 @@ class CategoryListWidget extends StatelessWidget {
                   },
                 ),
               ),
-            )
+            ),
         ],
+      ),
+      onEmpty: const Center(
+        child: Text(
+          'Você não tem nenhuma categoria',
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
