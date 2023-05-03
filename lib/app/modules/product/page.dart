@@ -54,9 +54,25 @@ class ProductPage extends GetResponsiveView<ProductController> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
+            child: Obx(() {
+              if (controller.loading.isTrue) {
+                return const ElevatedButton(
+                  onPressed: null,
+                  child: SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  ),
+                );
+              }
+
+              return ElevatedButton(
                 onPressed: () => controller.onAdd(),
-                child: const Text('Adicionar')),
+                child: const Text('Adicionar'),
+              );
+            }),
           ),
         )
       ],
@@ -65,6 +81,7 @@ class ProductPage extends GetResponsiveView<ProductController> {
 
   Form _buildForm() {
     return Form(
+      key: controller.formKey,
       child: Column(
         children: [
           TextFormField(
@@ -107,6 +124,7 @@ class ProductPage extends GetResponsiveView<ProductController> {
               SizedBox(
                 width: 150,
                 child: DropdownButtonFormField(
+                  value: controller.unitOfMeasure.value,
                   decoration: const InputDecoration(
                     labelText: 'Unidade',
                   ),
@@ -118,10 +136,39 @@ class ProductPage extends GetResponsiveView<ProductController> {
                         ),
                       )
                       .toList(),
-                  onChanged: (value) {},
+                  onChanged: controller.changeUnityOfMeasure,
                 ),
               ),
             ],
+          ),
+          Container(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: Obx(
+              () => DropdownButtonFormField(
+                value: controller.categoryId.value,
+                items: controller.categoryList
+                    .map(
+                      (category) => DropdownMenuItem<int>(
+                        value: category.id,
+                        child: Text(category.name),
+                      ),
+                    )
+                    .toList(),
+                onChanged: controller.changeCategory,
+                decoration: const InputDecoration(labelText: 'Categoria'),
+                validator: (int? value) {
+                  if (value == null) {
+                    return 'Selecione uma categoria';
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextButton(
+            onPressed: controller.goToNewCategory,
+            child: const Text('Criar uma nova categoria'),
           )
         ],
       ),

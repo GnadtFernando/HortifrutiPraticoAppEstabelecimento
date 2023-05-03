@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:app_painel_hortifruti_pratico/app/core/errors/exception_handlers.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/address.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/category.dart';
+import 'package:app_painel_hortifruti_pratico/app/data/models/category_request.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/city.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/order.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/order_request.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/product.dart';
+import 'package:app_painel_hortifruti_pratico/app/data/models/product_request.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/store.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/user.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/models/user_address_request.dart';
@@ -16,7 +18,8 @@ import 'package:app_painel_hortifruti_pratico/app/data/models/user_profile_reque
 import 'package:app_painel_hortifruti_pratico/app/data/provider/base_url.dart';
 import 'package:app_painel_hortifruti_pratico/app/data/services/storage/service.dart';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 
 class Api extends GetxService {
   final _baseUrl = Baseurl.webdevhost;
@@ -122,6 +125,30 @@ class Api extends GetxService {
     }
 
     return data;
+  }
+
+  Future<CategoryModel> postCategory(CategoryRequestModel data) async {
+    var response =
+        await _dio.get('estabelecimento/categorias', data: jsonEncode(data));
+
+    return CategoryModel.fromJson(response.data);
+  }
+
+  Future<ProductModel> postProduct(ProductRequestModel data) async {
+    var formData = FormData.fromMap(data.toJson());
+    var image = data.image;
+
+    if (image != null) {
+      formData.files.add(
+        MapEntry(
+          'imagem',
+          MultipartFile.fromBytes(image.bytes!, filename: image.name),
+        ),
+      );
+    }
+
+    var response = await _dio.post('estabelecimento/produtos', data: formData);
+    return ProductModel.fromJson(response.data);
   }
 
   Future<List<ProductModel>> getProducts(int categoryId) async {

@@ -12,12 +12,12 @@ class CategoryListController extends GetxController
 
   @override
   void onInit() {
-    loadOrders();
+    loadCategories();
 
     super.onInit();
   }
 
-  Future<void> loadOrders() async {
+  Future<void> loadCategories() async {
     await _repository.getCategories().then((data) {
       var status = data.isEmpty ? RxStatus.empty() : RxStatus.success();
       change(data, status: status);
