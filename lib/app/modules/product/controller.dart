@@ -21,14 +21,31 @@ class ProductController extends GetxController {
   final observationController = TextEditingController();
   final unitOfMeasure = RxString('UN');
   final img = Rxn<PlatformFile>();
+  final currentImg = RxnString();
   final loading = false.obs;
+  final editing = false.obs;
+  late String title;
 
   final categoryList = RxList<CategoryModel>.empty();
   final categoryId = RxnInt();
   @override
   void onInit() async {
     await loadCategories();
-    // product.value = Get.arguments['product'];
+    if (Get.arguments != null) {
+      product.value = Get.arguments['product'];
+      title = product.value!.name;
+      editing(true);
+
+      nameController.text = product.value!.name;
+      descriptionController.text = product.value!.description ?? '';
+      priceController.text = product.value!.price.toString();
+      unitOfMeasure.value = product.value!.unitOfMeasure;
+      categoryId.value = product.value!.categoryId;
+      currentImg.value = product.value!.image;
+    } else {
+      title = 'Novo Produto';
+    }
+
     super.onInit();
   }
 
@@ -71,6 +88,29 @@ class ProductController extends GetxController {
 
     loading(true);
     _repository.postProduct(productRequest).then((product) async {
+      Get.back();
+    }, onError: (error) {
+      Get.dialog(AlertDialog(title: Text(error.toString())));
+    }).whenComplete(() => loading(false));
+  }
+
+  void onUpdate() {
+    Get.focusScope!.unfocus();
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    var productRequest = ProductRequestModel(
+      id: product.value!.id,
+      name: nameController.text,
+      description: descriptionController.text,
+      price: double.parse(priceController.text),
+      unitOfMeasure: unitOfMeasure.value,
+      categoryId: categoryId.value!,
+      image: img.value,
+    );
+
+    loading(true);
+    _repository.putProduct(productRequest).then((product) async {
       Get.back();
     }, onError: (error) {
       Get.dialog(AlertDialog(title: Text(error.toString())));

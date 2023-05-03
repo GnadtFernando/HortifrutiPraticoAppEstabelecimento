@@ -151,6 +151,24 @@ class Api extends GetxService {
     return ProductModel.fromJson(response.data);
   }
 
+  Future<ProductModel> putProduct(ProductRequestModel data) async {
+    var formData = FormData.fromMap(data.toJson());
+    var image = data.image;
+
+    if (image != null) {
+      formData.files.add(
+        MapEntry(
+          'imagem',
+          MultipartFile.fromBytes(image.bytes!, filename: image.name),
+        ),
+      );
+    }
+
+    var response =
+        await _dio.put('estabelecimento/produtos/${data.id}', data: formData);
+    return ProductModel.fromJson(response.data);
+  }
+
   Future<List<ProductModel>> getProducts(int categoryId) async {
     var response =
         await _dio.get('estabelecimento/produtos?categoria_id=$categoryId');

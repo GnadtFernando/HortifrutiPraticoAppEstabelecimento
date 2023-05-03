@@ -1,6 +1,7 @@
 import 'package:app_painel_hortifruti_pratico/app/modules/product/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ProductPage extends GetResponsiveView<ProductController> {
   ProductPage({super.key});
@@ -8,7 +9,7 @@ class ProductPage extends GetResponsiveView<ProductController> {
   @override
   Widget builder() {
     return Scaffold(
-      appBar: AppBar(title: const Text('Novo produto')),
+      appBar: AppBar(title: Text(controller.title)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Column(
@@ -67,9 +68,15 @@ class ProductPage extends GetResponsiveView<ProductController> {
                   ),
                 );
               }
+              if (controller.editing.isTrue) {
+                return ElevatedButton(
+                  onPressed: controller.onUpdate,
+                  child: const Text('Adicionar'),
+                );
+              }
 
               return ElevatedButton(
-                onPressed: () => controller.onAdd(),
+                onPressed: controller.onAdd,
                 child: const Text('Adicionar'),
               );
             }),
@@ -193,6 +200,20 @@ class ProductPage extends GetResponsiveView<ProductController> {
                 Image.memory(controller.img.value!.bytes!),
               );
             }
+
+            if (controller.currentImg.value?.isNotEmpty ?? false) {
+              return Column(
+                children: [
+                  _buildProductImage(
+                    FadeInImage.memoryNetwork(
+                      placeholder: kTransparentImage,
+                      image: controller.currentImg.value!,
+                    ),
+                  ),
+                ],
+              );
+            }
+
             return const SizedBox();
           },
         ),

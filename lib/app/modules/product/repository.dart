@@ -12,4 +12,7 @@ class ProductRepository {
 
   Future<ProductModel> postProduct(ProductRequestModel productRequest) =>
       _api.postProduct(productRequest);
+
+  Future<ProductModel> putProduct(ProductRequestModel productRequest) =>
+      _api.putProduct(productRequest);
 }
