@@ -41,12 +41,17 @@ class CategoryListWidget extends StatelessWidget {
                   onSelected: (value) {
                     switch (value) {
                       case 'delete':
-                        DeleteCategoryWidget(
-                            controller.categorySelected.value!);
+                        Get.dialog(
+                          DeleteCategoryWidget(
+                            controller.categorySelected.value ?? category.id,
+                          ),
+                        );
                         break;
                       case 'edit':
-                        EditCategoryWidget(
-                          controller.categorySelected.value!,
+                        Get.dialog(
+                          EditCategoryWidget(
+                            controller.categorySelected.value ?? category.id,
+                          ),
                         );
                         break;
                       default:
