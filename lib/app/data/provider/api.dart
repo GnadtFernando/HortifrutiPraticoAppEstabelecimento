@@ -169,6 +169,10 @@ class Api extends GetxService {
     return ProductModel.fromJson(response.data);
   }
 
+  Future<void> deleteProductImage(int productId) async {
+    await _dio.delete('estabelecimento/produtos/$productId/imagem');
+  }
+
   Future<List<ProductModel>> getProducts(int categoryId) async {
     var response =
         await _dio.get('estabelecimento/produtos?categoria_id=$categoryId');

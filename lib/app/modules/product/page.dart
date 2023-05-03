@@ -204,6 +204,16 @@ class ProductPage extends GetResponsiveView<ProductController> {
             if (controller.currentImg.value?.isNotEmpty ?? false) {
               return Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 16),
+                    child: OutlinedButton(
+                      onPressed: controller.onDeleteImage,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.red,
+                      ),
+                      child: const Text('Excluir imagem'),
+                    ),
+                  ),
                   _buildProductImage(
                     FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
